@@ -404,10 +404,7 @@
             <span class="project__no" aria-hidden="true">04</span>
             <span class="project__cat">Quality Engineering &amp; Test Automation</span>
           </header>
-
           <h3 class="project__title">Jelly Translator</h3>
-
-          <!-- Top case-study row: application + narrative -->
           <div class="project__grid">
             <div class="project__text">
               <p class="project__lede">Quality is a system, not a final step.</p>
@@ -416,67 +413,49 @@
                 a Requirements Traceability Matrix, automation with Robot Framework and Pytest,
                 and continuous integration with GitHub Actions.
               </p>
-
               <dl class="project__meta">
                 <div><dt>Automation</dt><dd>Robot Framework · Pytest</dd></div>
                 <div><dt>Traceability</dt><dd>Requirements Traceability Matrix</dd></div>
                 <div><dt>Pipeline</dt><dd>GitHub Actions</dd></div>
               </dl>
-
-              <p class="project__xref">
-                <a class="xref"
-                   href="https://github.com/itsmefifa/2023-ITCS473-GluayGluay"
-                   target="_blank"
-                   rel="noopener noreferrer">Source on GitHub ↗</a>
-                ·
-                <a class="xref"
-                   href="https://github.com/itsmefifa/2023-ITCS473-GluayGluay/actions"
-                   target="_blank"
-                   rel="noopener noreferrer">GitHub Actions ↗</a>
-              </p>
+              <p class="project__xref"><a class="xref" href="https://github.com/itsmefifa/2023-ITCS473-GluayGluay" target="_blank" rel="noopener noreferrer">Source on GitHub ↗</a> · <a class="xref" href="https://github.com/itsmefifa/2023-ITCS473-GluayGluay/actions" target="_blank" rel="noopener noreferrer">GitHub Actions ↗</a></p>
             </div>
-
             <div class="project__media">
-              <img
-                class="project__asset project__asset--wide"
-                src="assets/projects/jelly/QA_2.png"
-                alt="Screenshot of the Jelly Translator application"
-                loading="lazy"
-                decoding="async"
-              >
-            </div>
-          </div>
-
-          <!-- Full-width testing evidence -->
-          <div class="jelly__evidence">
-            <p class="jelly__evidence-label">Testing Evidence</p>
-
-            <div class="jelly__evidence-grid">
-              <figure>
+              <div class="project__cluster">
                 <img
-                  src="assets/projects/jelly/UI_REPORT.png"
-                  alt="Robot Framework automated UI test report for Jelly Translator"
+                  class="project__asset project__asset--wide"
+                  src="assets/projects/Jelly/QA_2.png"
+                  alt="Screenshot of the Jelly Translator application"
                   loading="lazy"
                   decoding="async"
                 >
-                <figcaption class="project__cap">
-                  <strong>Automated UI Test Report</strong>
-                  <span>Robot Framework · end-to-end UI validation</span>
-                </figcaption>
-              </figure>
-
-              <figure>
-                <img
-                  src="assets/projects/jelly/rtm.png"
-                  alt="Requirements traceability matrix for Jelly Translator"
-                  loading="lazy"
-                  decoding="async"
-                >
-                <figcaption class="project__cap">
-                  <strong>Requirements Traceability Matrix</strong>
-                  <span>Requirements → test scenarios → validation</span>
-                </figcaption>
-              </figure>
+                <div class="project__cluster-row project__cluster-row--asym project__cluster-row--contain">
+                  <figure>
+                    <img
+                      src="assets/projects/jelly/UI_REPORT.png"
+                      alt="Robot Framework automated UI test report for Jelly Translator"
+                      loading="lazy"
+                      decoding="async"
+                    >
+                    <figcaption class="project__cap">
+                      <strong>Automated UI Test Report</strong>
+                      <span>Robot Framework · end-to-end UI validation</span>
+                    </figcaption>
+                  </figure>
+                  <figure>
+                    <img
+                      src="assets/projects/jelly/rtm.png"
+                      alt="Requirements traceability matrix for Jelly Translator"
+                      loading="lazy"
+                      decoding="async"
+                    >
+                    <figcaption class="project__cap">
+                      <strong>Requirements Traceability Matrix</strong>
+                      <span>Requirements → test scenarios → validation</span>
+                    </figcaption>
+                  </figure>
+                </div>
+              </div>
             </div>
           </div>
         </article>
