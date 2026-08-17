@@ -60,12 +60,15 @@
   var spyMap = {
     introduction: null,
     bridge: null,
+    experience: 'experience',
     work: 'work',
-    research: 'research',
-    story: 'story',
     archive: 'archive',
-    moments: 'archive',
-    education: 'archive',
+    research: 'research',
+    certifications: null,
+    honors: null,
+    education: null,
+    leadership: null,
+    moments: null,
     contact: 'contact'
   };
   var sections = Object.keys(spyMap)

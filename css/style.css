@@ -907,14 +907,14 @@ ul, ol {
   }
 }
 
-/* ---------- 05. Career Story ---------- */
+/* ---------- 03. Experience ---------- */
 
-.story__list {
+.xp-list {
   position: relative;
-  max-width: 52rem;
+  max-width: 56rem;
 }
 
-.story__list::before {
+.xp-list::before {
   content: "";
   position: absolute;
   left: 5px;
@@ -924,20 +924,20 @@ ul, ol {
   background: var(--border);
 }
 
-.chapter {
+.xp {
   position: relative;
-  padding: 0 0 clamp(3rem, 7vw, 4.5rem) clamp(2.25rem, 5vw, 4rem);
+  padding: 0 0 clamp(2.75rem, 6vw, 4rem) clamp(2.25rem, 5vw, 4rem);
 }
 
-.chapter:last-child {
+.xp:last-child {
   padding-bottom: 0;
 }
 
-.chapter::before {
+.xp::before {
   content: "";
   position: absolute;
   left: 0;
-  top: 0.55em;
+  top: 0.5em;
   width: 11px;
   height: 11px;
   border-radius: 50%;
@@ -945,53 +945,132 @@ ul, ol {
   border: 2px solid var(--blue);
 }
 
-.chapter:first-child::before {
-  background: var(--blue);
-}
-
-.chapter--lead::before {
+.xp--now::before {
   background: var(--yellow);
   border-color: var(--yellow);
 }
 
-.chapter__verb {
-  font-size: clamp(1.5rem, 3vw, 2.25rem);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
-  margin-bottom: 1rem;
+.xp--now .xp__role {
+  font-size: 1.5rem;
 }
 
-.chapter__no {
-  color: var(--blue);
+.xp--lead .xp__role {
+  font-size: 1.3125rem;
+}
+
+.xp__when {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.25rem;
+  margin-bottom: 0.625rem;
+}
+
+.xp__dates {
   font-size: var(--fs-meta);
-  letter-spacing: 0.16em;
-  margin-right: 0.875rem;
-  vertical-align: 0.35em;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--blue);
 }
 
-.chapter__role {
+.xp__place {
+  font-size: var(--fs-meta);
+  color: var(--gray);
+  letter-spacing: 0.04em;
+}
+
+.xp__verb {
+  font-size: var(--fs-caption);
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gray);
+  margin-bottom: 0.375rem;
+}
+
+.xp__role {
   font-size: 1.125rem;
 }
 
-.chapter__role--second {
-  margin-top: 1.75rem;
-}
-
-.chapter__org {
+.xp__org {
   color: var(--gray);
   font-size: var(--fs-meta);
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
   margin: 0.25rem 0 0.75rem;
 }
 
-.chapter__text {
+.xp__summary {
   color: var(--gray);
   max-width: 46em;
 }
 
-.chapter--lead .chapter__role {
-  font-size: 1.3125rem;
+.xp__more {
+  margin-top: 0.875rem;
+  border-top: 1px solid var(--border);
+  max-width: 46em;
+}
+
+.xp__more summary {
+  cursor: pointer;
+  padding: 0.625rem 0;
+  font-size: var(--fs-caption);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--black);
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.xp__more summary::-webkit-details-marker {
+  display: none;
+}
+
+.xp__more summary::before {
+  content: "";
+  width: 0.625rem;
+  height: 2px;
+  background: var(--blue);
+  transition: transform var(--transition);
+}
+
+.xp__more[open] summary::before {
+  transform: rotate(90deg);
+}
+
+.xp__more ul {
+  padding: 0 0 1rem 1.125rem;
+  list-style: disc;
+  color: var(--gray);
+  font-size: 0.9375rem;
+}
+
+.xp__more li {
+  padding: 0.25rem 0;
+}
+
+.xp__more li::marker {
+  color: var(--border);
+}
+
+/* Cross-links */
+
+.xref {
+  color: var(--blue);
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 1px;
+}
+
+.xref:hover {
+  border-bottom-color: var(--blue);
+}
+
+.project__xref {
+  margin-top: 1.25rem;
 }
 
 /* ---------- 06. Archive ---------- */
@@ -1343,6 +1422,240 @@ ul, ol {
 
 .footer__top:hover {
   color: var(--blue);
+}
+
+/* ---------- 05. Project Archive (catalog) ---------- */
+
+.catalog__lede {
+  color: var(--gray);
+  font-style: italic;
+  margin-top: calc(-1 * clamp(1.5rem, 4vw, 2.75rem));
+  margin-bottom: clamp(2.5rem, 6vw, 4rem);
+}
+
+.catalog__year {
+  font-size: var(--fs-meta);
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--blue);
+  margin-bottom: 0.75rem;
+}
+
+.catalog__group + .catalog__group {
+  margin-top: clamp(2.5rem, 6vw, 3.5rem);
+}
+
+.catalog__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1rem clamp(1.5rem, 4vw, 3rem);
+  padding: 1.25rem 0;
+  border-top: 1px solid var(--border);
+}
+
+.catalog__name {
+  font-size: 1.0625rem;
+  font-weight: 700;
+}
+
+.catalog__name .xref {
+  font-weight: 500;
+  margin-left: 0.5rem;
+}
+
+.catalog__desc {
+  color: var(--gray);
+  font-size: 0.9375rem;
+  max-width: 52em;
+  margin-top: 0.25rem;
+}
+
+.catalog__stack {
+  color: var(--gray);
+  font-size: var(--fs-caption);
+  letter-spacing: 0.06em;
+  margin-top: 0.5rem;
+}
+
+.catalog__side {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
+  text-align: right;
+}
+
+.catalog__domain {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gray);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 0.25rem 0.5rem;
+  white-space: nowrap;
+}
+
+.catalog__link {
+  color: var(--black);
+  font-size: var(--fs-meta);
+  font-weight: 500;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 1px;
+}
+
+.catalog__link:hover {
+  color: var(--blue);
+  border-bottom-color: var(--blue);
+}
+
+@media (max-width: 768px) {
+  .catalog__row {
+    grid-template-columns: 1fr;
+    gap: 0.625rem;
+  }
+
+  .catalog__side {
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1rem;
+    text-align: left;
+  }
+}
+
+/* ---------- 07. Certifications modifiers ---------- */
+
+.cert__cat {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin-bottom: 0.25rem;
+}
+
+.archive__lede--small {
+  margin-top: 1.25rem;
+  font-size: var(--fs-meta);
+  font-style: normal;
+}
+
+.archive__lede--small .xref {
+  margin-right: 0.75rem;
+}
+
+/* ---------- 08. Honors & Recognition ---------- */
+
+.honors__list {
+  max-width: 56rem;
+}
+
+.honors__row {
+  display: grid;
+  grid-template-columns: 150px minmax(0, 1fr);
+  gap: 1.5rem;
+  align-items: center;
+  padding: 1.25rem 0;
+  border-top: 1px solid var(--border);
+}
+
+.honors__row:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.honors__row:not(:has(.archive__thumb)) {
+  grid-template-columns: 1fr;
+}
+
+@media (max-width: 480px) {
+  .honors__row {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .honors__row .archive__thumb {
+    width: 132px;
+  }
+}
+
+/* ---------- 09. Education modifier ---------- */
+
+.education__degree--small {
+  margin-top: 0.25rem;
+  font-size: var(--fs-meta);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gray);
+}
+
+/* ---------- 10. Leadership & Community ---------- */
+
+.lead-list {
+  max-width: 56rem;
+}
+
+.lead__row {
+  display: grid;
+  grid-template-columns: 9.5rem minmax(0, 1fr);
+  gap: 1.5rem;
+  padding: 1.1rem 0;
+  border-top: 1px solid var(--border);
+}
+
+.lead__row:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.lead__dates {
+  font-size: var(--fs-meta);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gray);
+  padding-top: 0.15rem;
+}
+
+.lead__role {
+  font-size: 1rem;
+}
+
+.lead__org {
+  color: var(--gray);
+  font-size: var(--fs-meta);
+  margin-top: 0.125rem;
+}
+
+.lead__desc {
+  color: var(--gray);
+  font-size: 0.9375rem;
+  margin-top: 0.375rem;
+  max-width: 52em;
+}
+
+@media (max-width: 640px) {
+  .lead__row {
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+  }
+}
+
+/* ---------- 11. Moments second row ---------- */
+
+.moments__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem clamp(1.5rem, 3vw, 2.5rem);
+  margin-top: 1.5rem;
+}
+
+@media (max-width: 900px) {
+  .moments__row {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ---------- Motion safety ---------- */

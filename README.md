@@ -9,7 +9,7 @@ Live site: https://itsmefifa.github.io
 
 ```
 /
-├── index.html          # Single-page exhibition (9 chapters)
+├── index.html          # Single-page exhibition (12 sections)
 ├── css/style.css       # Complete design system, no frameworks
 ├── js/main.js          # Minimal vanilla JS (menu, scrollspy, year)
 ├── favicon.svg         # Site mark
@@ -29,11 +29,16 @@ Live site: https://itsmefifa.github.io
 
 ## Page flow
 
-01 Introduction · 02 Business × Technology × Delivery · 03 Selected Work ·
-04 Research · 05 Career Story · 06 Archive · 07 Selected Moments ·
-08 Education · 09 Contact
+01 Introduction · 02 Business × Technology × Delivery · 03 Experience ·
+04 Selected Work · 05 Project Archive · 06 Research & Publications ·
+07 Certifications & Learning · 08 Honors & Recognition · 09 Education ·
+10 Leadership & Community · 11 Selected Moments · 12 Contact
 
-Navigation stays short on purpose: Work · Story · Research · Archive · Contact.
+Selected Work shows depth; the Project Archive shows breadth. Sections
+cross-link (experience ↔ research ↔ moments ↔ education) so the site reads as
+one interconnected archive.
+
+Navigation stays short on purpose: Experience · Work · Research · Archive · Contact.
 
 ## Design system
 
