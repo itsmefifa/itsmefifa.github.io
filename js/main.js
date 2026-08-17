@@ -1,93 +1,102 @@
-// Main JavaScript for Chanisara's Portfolio
+// Chanisara Kotrachai — minimal interactions
+(function () {
+  'use strict';
 
-(function() {
-  // Set current year in footer
-  document.addEventListener('DOMContentLoaded', function() {
-    var yearElement = document.getElementById('current-year');
-    if (yearElement) {
-      yearElement.textContent = new Date().getFullYear();
-    }
-    
-    // Mobile navigation toggle
-    var navToggle = document.getElementById('nav-toggle');
-    var navLinks = document.querySelector('.nav__links');
-    
-    if (navToggle && navLinks) {
-      navToggle.addEventListener('click', function() {
-        navLinks.classList.toggle('active');
-        var isExpanded = navLinks.classList.contains('active');
-        navToggle.setAttribute('aria-expanded', isExpanded.toString());
-        
-        // Update hamburger icon
-        var spans = navToggle.querySelectorAll('span');
-        if (isExpanded) {
-          spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
-          spans[1].style.opacity = '0';
-          spans[2].style.transform = 'rotate(-45deg) translate(7px, -6px)';
-        } else {
-          spans[0].style.transform = 'none';
-          spans[1].style.opacity = '1';
-          spans[2].style.transform = 'none';
-        }
-      });
-      
-      // Close mobile menu when clicking a link
-      document.querySelectorAll('.nav__link').forEach(function(link) {
-        link.addEventListener('click', function() {
-          navLinks.classList.remove('active');
-          navToggle.setAttribute('aria-expanded', 'false');
-          var spans = navToggle.querySelectorAll('span');
-          spans[0].style.transform = 'none';
-          spans[1].style.opacity = '1';
-          spans[2].style.transform = 'none';
-        });
-      });
-    }
-    
-    // Smooth scroll for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
-      anchor.addEventListener('click', function(e) {
-        var href = this.getAttribute('href');
-        if (href === '#' || href === '#hero') return;
-        
-        e.preventDefault();
-        var targetElement = document.querySelector(href);
-        if (targetElement) {
-          var headerHeight = document.querySelector('.nav').offsetHeight;
-          var targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - headerHeight;
-          
-          window.scrollTo({
-            top: targetPosition,
-            behavior: 'smooth'
-          });
-        }
-      });
+  // Footer year
+  var yearEl = document.getElementById('current-year');
+  if (yearEl) {
+    yearEl.textContent = String(new Date().getFullYear());
+  }
+
+  // Mobile navigation
+  var toggle = document.getElementById('nav-toggle');
+  var menu = document.getElementById('nav-links');
+
+  function closeMenu() {
+    document.body.classList.remove('nav-open');
+    toggle.setAttribute('aria-expanded', 'false');
+    toggle.setAttribute('aria-label', 'Open menu');
+  }
+
+  function openMenu() {
+    document.body.classList.add('nav-open');
+    toggle.setAttribute('aria-expanded', 'true');
+    toggle.setAttribute('aria-label', 'Close menu');
+  }
+
+  if (toggle && menu) {
+    toggle.addEventListener('click', function () {
+      if (document.body.classList.contains('nav-open')) {
+        closeMenu();
+      } else {
+        openMenu();
+      }
     });
-    
-    // Update active nav link on scroll
-    var sections = document.querySelectorAll('section[id]');
-    var navLinksElements = document.querySelectorAll('.nav__link');
-    
-    function updateActiveNavLink() {
-      var scrollPosition = window.scrollY + 100;
-      
-      sections.forEach(function(section) {
-        var sectionTop = section.offsetTop;
-        var sectionHeight = section.clientHeight;
-        var sectionId = section.getAttribute('id');
-        
-        if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
-          navLinksElements.forEach(function(link) {
-            link.classList.remove('active');
-            if (link.getAttribute('href') === '#' + sectionId) {
-              link.classList.add('active');
-            }
-          });
+
+    menu.addEventListener('click', function (e) {
+      if (e.target.closest('a')) {
+        closeMenu();
+      }
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && document.body.classList.contains('nav-open')) {
+        closeMenu();
+        toggle.focus();
+      }
+    });
+
+    document.addEventListener('click', function (e) {
+      if (document.body.classList.contains('nav-open') &&
+          !e.target.closest('.nav')) {
+        closeMenu();
+      }
+    });
+  }
+
+  // Scrollspy: highlight the nav link of the section in view.
+  // Sections without a nav link map to the nearest nav target (or none).
+  var links = Array.prototype.slice.call(document.querySelectorAll('.nav__link'));
+  var spyMap = {
+    introduction: null,
+    bridge: null,
+    work: 'work',
+    research: 'research',
+    story: 'story',
+    archive: 'archive',
+    moments: 'archive',
+    education: 'archive',
+    contact: 'contact'
+  };
+  var sections = Object.keys(spyMap)
+    .map(function (id) {
+      return document.getElementById(id);
+    })
+    .filter(Boolean);
+
+  function setActive(id) {
+    links.forEach(function (link) {
+      var match = id !== null && link.getAttribute('href') === '#' + id;
+      link.classList.toggle('active', match);
+      if (match) {
+        link.setAttribute('aria-current', 'true');
+      } else {
+        link.removeAttribute('aria-current');
+      }
+    });
+  }
+
+  if ('IntersectionObserver' in window && sections.length) {
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          setActive(spyMap[entry.target.id]);
         }
       });
-    }
-    
-    window.addEventListener('scroll', updateActiveNavLink);
-    updateActiveNavLink(); // Initial call
-  });
+    }, { rootMargin: '-40% 0px -55% 0px' });
+
+    sections.forEach(function (section) {
+      observer.observe(section);
+    });
+  }
 })();

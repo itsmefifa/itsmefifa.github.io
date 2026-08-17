@@ -1,86 +1,69 @@
-# Chanisara Kotrachai Portfolio
+# Chanisara Kotrachai — Personal Digital Exhibition
 
-Personal portfolio website for Chanisara Kotrachai, a Business Analyst and Technical Project Manager specializing in AI & Automation.
+A static personal website for Chanisara Kotrachai: an editorial portfolio and living
+career archive built around one idea — **Business × Technology × Delivery**.
 
-## Live Site
-https://itsmefifa.github.io
+Live site: https://itsmefifa.github.io
 
-## Features
-- **Design System**: Clean, minimalist Google-inspired visual language
-- **Visual Concept**: "Bridge" metaphor connecting business, technology, and delivery
-- **Responsive Layout**: Fully responsive for desktop, tablet, and mobile
-- **Accessibility**: Semantic HTML5, proper heading hierarchy, keyboard navigation
-- **Performance**: No frameworks, minimal JavaScript, optimized assets
-- **Motion**: Subtle animations with reduced motion support
+## Structure
 
-## Technical Stack
-- HTML5 (semantic, accessible)
-- CSS3 (custom properties, Grid, Flexbox)
-- Vanilla JavaScript (minimal interactions)
-- DM Sans Google Font
-- Static assets (no build system required)
-
-## Project Structure
 ```
 /
-├── index.html                    # Main HTML document
-├── css/
-│   └── style.css                # Complete CSS with design system
-├── js/
-│   └── main.js                  # Minimal JavaScript for interactions
+├── index.html          # Single-page exhibition (9 chapters)
+├── css/style.css       # Complete design system, no frameworks
+├── js/main.js          # Minimal vanilla JS (menu, scrollspy, year)
+├── favicon.svg         # Site mark
 ├── assets/
-│   ├── profile/                 # Profile images
-│   ├── projects/                # Project screenshots and images
-│   └── certificates/            # Certificate badges
-├── resume/
-│   └── Chanisara-Kotrachai-Resume.pdf
-└── README.md
+│   ├── profile/        # Editorial portrait
+│   ├── projects/       # Project visuals (fraud-detection title slide)
+│   ├── research/       # InCIT 2023 poster PDF preview + certificate
+│   ├── credentials/    # Certificate scans + generated thumbs/
+│   ├── moments/        # Conference & research photography
+│   └── og/             # Branded Open Graph image
+├── documents/
+│   ├── posters/        # InCIT 2023 research poster (PDF)
+│   └── resume/         # Resume (PDF)
+├── ASSET-TODO.md       # Placeholder → real asset tracker
+└── .github/workflows/pages.yml  # GitHub Pages deploy from main
 ```
 
-## Design System
-### Colors
-- Primary: Blue (#4285F4)
-- Secondary: Yellow (#FBBC04)
-- Text: Near-black (#202124)
-- Background: White (#FFFFFF)
-- Borders: Light gray (#DADCE0)
+## Page flow
 
-### Typography
-- Font: DM Sans (Google Font)
-- Scale: Fluid typography with comfortable line heights
-- Weights: 400 (regular), 500 (medium), 600 (semibold), 700 (bold)
+01 Introduction · 02 Business × Technology × Delivery · 03 Selected Work ·
+04 Research · 05 Career Story · 06 Archive · 07 Selected Moments ·
+08 Education · 09 Contact
 
-### Spacing
-- Base unit: 8px modular scale
-- Container: 1120px max-width with responsive padding
-- Section rhythm: Consistent vertical spacing
+Navigation stays short on purpose: Work · Story · Research · Archive · Contact.
 
-### Components
-- Navigation: Fixed header with mobile hamburger menu
-- Hero: 90svh height with profile image and primary CTA
-- Timeline: Visual career history with primary/secondary dots
-- Projects: Featured project + standard projects with tags
-- Research: Editorial layout with conference presentation
-- Credentials: Clean list of certifications
-- Contact: Confident closing with prominent links
+## Design system
+
+- Palette: white canvas (~85%), near-black/gray text, blue `#4285F4` accents,
+  yellow `#FBBC04` only as rare endpoint markers.
+- Typography: DM Sans with a strong editorial scale (display → caption).
+- Bridge motif: numbered section headers with a hairline rule and yellow endpoint;
+  the B×T×D axis; the career rail that starts blue and ends yellow.
+- Placeholders: designed editorial components (see `ASSET-TODO.md`); replacing one
+  with a real image requires no layout changes.
 
 ## Development
-1. Clone repository: `git clone https://github.com/itsmefifa/itsmefifa.github.io`
-2. Open `index.html` directly in a browser
-3. Or serve locally: `python3 -m http.server 8000`
+
+```
+python3 -m http.server 8000   # then open http://localhost:8000
+```
+
+No build step, no frameworks. Keep it static, fast and accessible:
+semantic HTML, focus-visible states, reduced-motion support, lazy images
+with explicit dimensions.
 
 ## Deployment
-The site is configured for GitHub Pages:
-- Repository name: `itsmefifa.github.io`
-- Branch: `main`
-- Automatically deployed when pushed
 
-## Customization
-To update content:
-1. Edit `index.html` for text content
-2. Replace images in `assets/` directories
-3. Update resume PDF in `resume/`
-4. Modify `css/style.css` for styling changes
+GitHub Pages via `.github/workflows/pages.yml` — every push to `main` deploys
+automatically to https://itsmefifa.github.io.
 
-## License
-Personal portfolio - all content © Chanisara Kotrachai
+## Content integrity
+
+Only verified facts are published (roles, dates, certifications and publication
+details follow the resume and the certificates themselves). Missing visuals use
+placeholders; nothing is invented.
+
+© Chanisara Kotrachai
