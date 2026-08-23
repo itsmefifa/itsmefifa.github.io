@@ -64,11 +64,11 @@
     work: 'work',
     archive: 'archive',
     research: 'research',
-    certifications: null,
-    honors: null,
-    education: null,
-    leadership: null,
-    moments: null,
+    certifications: 'archive',
+    honors: 'archive',
+    education: 'archive',
+    leadership: 'archive',
+    moments: 'archive',
     contact: 'contact'
   };
   var sections = Object.keys(spyMap)
@@ -102,4 +102,127 @@
       observer.observe(section);
     });
   }
+
+  // === UX POLISH v1: accessible project lightbox ===
+  // Project visuals are evidence, so allow closer inspection without
+  // turning the site into a carousel or changing its editorial layout.
+  var zoomableImages = Array.prototype.slice.call(
+    document.querySelectorAll(
+      '.project img, ' +
+      '.jelly__evidence-grid img, ' +
+      '.moments img, ' +
+      '.research__visual img, ' +
+      '.archive__thumb'
+    )
+  );
+
+  if (zoomableImages.length) {
+    var lightbox = document.createElement('div');
+    lightbox.className = 'portfolio-lightbox';
+    lightbox.setAttribute('aria-hidden', 'true');
+
+    var dialog = document.createElement('div');
+    dialog.className = 'portfolio-lightbox__dialog';
+    dialog.setAttribute('role', 'dialog');
+    dialog.setAttribute('aria-modal', 'true');
+    dialog.setAttribute('aria-label', 'Project image preview');
+
+    var preview = document.createElement('img');
+    preview.className = 'portfolio-lightbox__image';
+    preview.alt = '';
+
+    var closeButton = document.createElement('button');
+    closeButton.className = 'portfolio-lightbox__close';
+    closeButton.type = 'button';
+    closeButton.setAttribute('aria-label', 'Close image preview');
+    closeButton.textContent = '×';
+
+    dialog.appendChild(preview);
+    dialog.appendChild(closeButton);
+    lightbox.appendChild(dialog);
+    document.body.appendChild(lightbox);
+
+    var previouslyFocused = null;
+
+    function openLightbox(sourceImage) {
+      previouslyFocused = document.activeElement;
+      preview.src = sourceImage.currentSrc || sourceImage.src;
+      preview.alt = sourceImage.alt || 'Project image preview';
+      lightbox.classList.add('is-open');
+      lightbox.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('lightbox-open');
+      closeButton.focus();
+    }
+
+    function closeLightbox() {
+      lightbox.classList.remove('is-open');
+      lightbox.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('lightbox-open');
+      preview.removeAttribute('src');
+
+      if (previouslyFocused && typeof previouslyFocused.focus === 'function') {
+        previouslyFocused.focus();
+      }
+    }
+
+    zoomableImages.forEach(function (image) {
+      image.setAttribute('tabindex', '0');
+      image.setAttribute('role', 'button');
+      image.setAttribute('aria-label',
+        (image.alt ? image.alt + '. ' : '') + 'Open larger image'
+      );
+
+      image.addEventListener('click', function () {
+        openLightbox(image);
+      });
+
+      image.addEventListener('keydown', function (event) {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          openLightbox(image);
+        }
+      });
+    });
+
+    closeButton.addEventListener('click', closeLightbox);
+
+    lightbox.addEventListener('click', function (event) {
+      if (event.target === lightbox) {
+        closeLightbox();
+      }
+    });
+
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape' && lightbox.classList.contains('is-open')) {
+        closeLightbox();
+      }
+    });
+  }
+
+
+  // === UX POLISH v3: lightbox targets + floating back-to-top ===
+
+  // Turn the existing footer "Back to top" link into a floating utility
+  // after the visitor has moved beyond the hero.
+  var backToTop = document.querySelector('.footer__top');
+
+  if (backToTop) {
+    var ticking = false;
+
+    function updateBackToTop() {
+      backToTop.classList.toggle('is-visible', window.scrollY > 700);
+      ticking = false;
+    }
+
+    function requestBackToTopUpdate() {
+      if (!ticking) {
+        window.requestAnimationFrame(updateBackToTop);
+        ticking = true;
+      }
+    }
+
+    window.addEventListener('scroll', requestBackToTopUpdate, { passive: true });
+    updateBackToTop();
+  }
+
 })();
