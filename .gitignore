@@ -1,3 +1,9 @@
 
-# Local AI coding agent
+# Local tools and generated output
 .qwen/
+.DS_Store
+.portfolio-backup/
+dist/
+__pycache__/
+*.pyc
+.site-test-*/

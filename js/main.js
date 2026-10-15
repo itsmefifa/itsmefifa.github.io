@@ -1,228 +1,149 @@
-// Chanisara Kotrachai — minimal interactions
+// Progressive enhancements; content and navigation work without JavaScript.
 (function () {
   'use strict';
+  var year = document.getElementById('current-year');
+  if (year) year.textContent = String(new Date().getFullYear());
 
-  // Footer year
-  var yearEl = document.getElementById('current-year');
-  if (yearEl) {
-    yearEl.textContent = String(new Date().getFullYear());
-  }
-
-  // Mobile navigation
   var toggle = document.getElementById('nav-toggle');
   var menu = document.getElementById('nav-links');
-
-  function closeMenu() {
-    document.body.classList.remove('nav-open');
-    toggle.setAttribute('aria-expanded', 'false');
-    toggle.setAttribute('aria-label', 'Open menu');
-  }
-
-  function openMenu() {
-    document.body.classList.add('nav-open');
-    toggle.setAttribute('aria-expanded', 'true');
-    toggle.setAttribute('aria-label', 'Close menu');
-  }
-
-  if (toggle && menu) {
+  var header = document.querySelector('.nav');
+  if (toggle && menu && header) {
+    function closeMenu(returnFocus) {
+      document.body.classList.remove('nav-open');
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.setAttribute('aria-label', 'Open menu');
+      if (returnFocus) toggle.focus();
+    }
     toggle.addEventListener('click', function () {
-      if (document.body.classList.contains('nav-open')) {
-        closeMenu();
-      } else {
-        openMenu();
+      if (toggle.getAttribute('aria-expanded') === 'true') closeMenu(false);
+      else {
+        document.body.classList.add('nav-open');
+        toggle.setAttribute('aria-expanded', 'true');
+        toggle.setAttribute('aria-label', 'Close menu');
       }
     });
-
-    menu.addEventListener('click', function (e) {
-      if (e.target.closest('a')) {
-        closeMenu();
-      }
-    });
-
-    document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && document.body.classList.contains('nav-open')) {
-        closeMenu();
-        toggle.focus();
-      }
-    });
-
-    document.addEventListener('click', function (e) {
-      if (document.body.classList.contains('nav-open') &&
-          !e.target.closest('.nav')) {
-        closeMenu();
-      }
-    });
-  }
-
-  // Scrollspy: highlight the nav link of the section in view.
-  // Sections without a nav link map to the nearest nav target (or none).
-  var links = Array.prototype.slice.call(document.querySelectorAll('.nav__link'));
-  var spyMap = {
-    introduction: null,
-    bridge: null,
-    experience: 'experience',
-    work: 'work',
-    archive: 'archive',
-    research: 'research',
-    certifications: 'archive',
-    honors: 'archive',
-    education: 'archive',
-    leadership: 'archive',
-    moments: 'archive',
-    contact: 'contact'
-  };
-  var sections = Object.keys(spyMap)
-    .map(function (id) {
-      return document.getElementById(id);
-    })
-    .filter(Boolean);
-
-  function setActive(id) {
-    links.forEach(function (link) {
-      var match = id !== null && link.getAttribute('href') === '#' + id;
-      link.classList.toggle('active', match);
-      if (match) {
-        link.setAttribute('aria-current', 'true');
-      } else {
-        link.removeAttribute('aria-current');
-      }
-    });
-  }
-
-  if ('IntersectionObserver' in window && sections.length) {
-    var observer = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          setActive(spyMap[entry.target.id]);
+    menu.addEventListener('click', function (event) {
+      var link = event.target.closest('a');
+      if (!link) return;
+      closeMenu(false);
+      if (link.hash && link.pathname === location.pathname) {
+        var target = document.getElementById(link.hash.slice(1));
+        if (target) {
+          target.setAttribute('tabindex', '-1');
+          target.focus({ preventScroll: true });
         }
-      });
-    }, { rootMargin: '-40% 0px -55% 0px' });
-
-    sections.forEach(function (section) {
-      observer.observe(section);
-    });
-  }
-
-  // === UX POLISH v1: accessible project lightbox ===
-  // Project visuals are evidence, so allow closer inspection without
-  // turning the site into a carousel or changing its editorial layout.
-  var zoomableImages = Array.prototype.slice.call(
-    document.querySelectorAll(
-      '.project img, ' +
-      '.jelly__evidence-grid img, ' +
-      '.moments img, ' +
-      '.research__visual img, ' +
-      '.archive__thumb'
-    )
-  );
-
-  if (zoomableImages.length) {
-    var lightbox = document.createElement('div');
-    lightbox.className = 'portfolio-lightbox';
-    lightbox.setAttribute('aria-hidden', 'true');
-
-    var dialog = document.createElement('div');
-    dialog.className = 'portfolio-lightbox__dialog';
-    dialog.setAttribute('role', 'dialog');
-    dialog.setAttribute('aria-modal', 'true');
-    dialog.setAttribute('aria-label', 'Project image preview');
-
-    var preview = document.createElement('img');
-    preview.className = 'portfolio-lightbox__image';
-    preview.alt = '';
-
-    var closeButton = document.createElement('button');
-    closeButton.className = 'portfolio-lightbox__close';
-    closeButton.type = 'button';
-    closeButton.setAttribute('aria-label', 'Close image preview');
-    closeButton.textContent = '×';
-
-    dialog.appendChild(preview);
-    dialog.appendChild(closeButton);
-    lightbox.appendChild(dialog);
-    document.body.appendChild(lightbox);
-
-    var previouslyFocused = null;
-
-    function openLightbox(sourceImage) {
-      previouslyFocused = document.activeElement;
-      preview.src = sourceImage.currentSrc || sourceImage.src;
-      preview.alt = sourceImage.alt || 'Project image preview';
-      lightbox.classList.add('is-open');
-      lightbox.setAttribute('aria-hidden', 'false');
-      document.body.classList.add('lightbox-open');
-      closeButton.focus();
-    }
-
-    function closeLightbox() {
-      lightbox.classList.remove('is-open');
-      lightbox.setAttribute('aria-hidden', 'true');
-      document.body.classList.remove('lightbox-open');
-      preview.removeAttribute('src');
-
-      if (previouslyFocused && typeof previouslyFocused.focus === 'function') {
-        previouslyFocused.focus();
-      }
-    }
-
-    zoomableImages.forEach(function (image) {
-      image.setAttribute('tabindex', '0');
-      image.setAttribute('role', 'button');
-      image.setAttribute('aria-label',
-        (image.alt ? image.alt + '. ' : '') + 'Open larger image'
-      );
-
-      image.addEventListener('click', function () {
-        openLightbox(image);
-      });
-
-      image.addEventListener('keydown', function (event) {
-        if (event.key === 'Enter' || event.key === ' ') {
-          event.preventDefault();
-          openLightbox(image);
-        }
-      });
-    });
-
-    closeButton.addEventListener('click', closeLightbox);
-
-    lightbox.addEventListener('click', function (event) {
-      if (event.target === lightbox) {
-        closeLightbox();
       }
     });
-
     document.addEventListener('keydown', function (event) {
-      if (event.key === 'Escape' && lightbox.classList.contains('is-open')) {
-        closeLightbox();
-      }
+      if (event.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') closeMenu(true);
     });
+    document.addEventListener('click', function (event) {
+      if (!header.contains(event.target)) closeMenu(false);
+    });
+    header.addEventListener('focusout', function (event) {
+      if (!header.contains(event.relatedTarget)) closeMenu(false);
+    });
+    var desktop = window.matchMedia('(min-width: 761px)');
+    function onBreakpointChange() { closeMenu(false); }
+    if (desktop.addEventListener) desktop.addEventListener('change', onBreakpointChange);
+    else desktop.addListener(onBreakpointChange);
+    document.body.classList.add('nav-enhanced');
   }
 
-
-  // === UX POLISH v3: lightbox targets + floating back-to-top ===
-
-  // Turn the existing footer "Back to top" link into a floating utility
-  // after the visitor has moved beyond the hero.
-  var backToTop = document.querySelector('.footer__top');
-
-  if (backToTop) {
+  // Compare section starts so long sections do not leave stale highlights.
+  var links = Array.prototype.slice.call(document.querySelectorAll('.nav__link[href^="#"]'));
+  var targets = links.map(function (link) { return document.getElementById(link.hash.slice(1)); }).filter(Boolean);
+  if (targets.length) {
     var ticking = false;
-
-    function updateBackToTop() {
-      backToTop.classList.toggle('is-visible', window.scrollY > 700);
+    function updateCurrentSection() {
+      var active = null;
+      var offset = (header ? header.getBoundingClientRect().height : 0) + 100;
+      targets.forEach(function (target) { if (target.getBoundingClientRect().top <= offset) active = target.id; });
+      if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 8) active = targets[targets.length - 1].id;
+      links.forEach(function (link) {
+        if (link.hash === '#' + active) link.setAttribute('aria-current', 'location');
+        else link.removeAttribute('aria-current');
+      });
       ticking = false;
     }
-
-    function requestBackToTopUpdate() {
-      if (!ticking) {
-        window.requestAnimationFrame(updateBackToTop);
-        ticking = true;
-      }
+    function scheduleUpdate() {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(updateCurrentSection);
     }
-
-    window.addEventListener('scroll', requestBackToTopUpdate, { passive: true });
-    updateBackToTop();
+    window.addEventListener('scroll', scheduleUpdate, { passive: true });
+    window.addEventListener('resize', scheduleUpdate);
+    window.addEventListener('pageshow', scheduleUpdate);
+    updateCurrentSection();
   }
 
+  // Native dialog provides focus containment, Escape, and inert background.
+  if (typeof HTMLDialogElement === 'undefined' || !HTMLDialogElement.prototype.showModal) return;
+  var images = document.querySelectorAll('img[data-zoom], .archive__thumb, .moments img');
+  if (!images.length) return;
+  var dialog = document.createElement('dialog');
+  dialog.className = 'evidence-dialog';
+  dialog.setAttribute('aria-labelledby', 'evidence-dialog-title');
+  var dialogHeader = document.createElement('div');
+  dialogHeader.className = 'evidence-dialog__header';
+  var title = document.createElement('h2');
+  title.id = 'evidence-dialog-title';
+  title.textContent = 'Evidence preview';
+  var close = document.createElement('button');
+  close.type = 'button';
+  close.className = 'evidence-dialog__close';
+  close.setAttribute('aria-label', 'Close evidence preview');
+  close.textContent = '×';
+  var preview = document.createElement('img');
+  preview.className = 'evidence-dialog__image';
+  preview.alt = '';
+  var caption = document.createElement('p');
+  caption.className = 'evidence-dialog__caption';
+  dialogHeader.appendChild(title);
+  dialogHeader.appendChild(close);
+  dialog.appendChild(dialogHeader);
+  dialog.appendChild(preview);
+  dialog.appendChild(caption);
+  document.body.appendChild(dialog);
+  var origin = null;
+  images.forEach(function (image) {
+    if (image.closest('a, button')) return;
+    var button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'image-zoom';
+    button.setAttribute('aria-label', 'Enlarge: ' + image.alt);
+    button.setAttribute('aria-haspopup', 'dialog');
+    image.parentNode.insertBefore(button, image);
+    button.appendChild(image);
+    button.addEventListener('click', function () {
+      origin = button;
+      preview.src = image.getAttribute('data-full') || image.currentSrc || image.src;
+      preview.alt = image.alt;
+      var figure = image.closest('figure');
+      var figureCaption = figure && figure.querySelector('figcaption');
+      caption.textContent = figureCaption ? figureCaption.textContent : image.alt;
+      dialog.showModal();
+      document.body.classList.add('lightbox-open');
+      close.focus();
+    });
+  });
+  close.addEventListener('click', function () { dialog.close(); });
+  // This preview has one interactive control. Keep Tab on it instead of letting
+  // the browser move focus from the modal into its own chrome.
+  dialog.addEventListener('keydown', function (event) {
+    if (event.key === 'Tab') {
+      event.preventDefault();
+      close.focus();
+    }
+  });
+  dialog.addEventListener('click', function (event) {
+    if (event.target !== dialog) return;
+    var rect = dialog.getBoundingClientRect();
+    if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) dialog.close();
+  });
+  dialog.addEventListener('close', function () {
+    document.body.classList.remove('lightbox-open');
+    preview.removeAttribute('src');
+    if (origin && origin.isConnected) origin.focus({ preventScroll: true });
+  });
 })();

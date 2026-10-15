@@ -3,19 +3,39 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [ main ]
+  pull_request:
   workflow_dispatch:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
   group: "pages"
   cancel-in-progress: false
 
 jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check static site
+        run: python3 scripts/validate_site.py
+
+      - name: Check JavaScript syntax
+        run: node --check js/main.js
+
+      - name: Check validation and staging behavior
+        run: python3 -m unittest discover -s scripts -p 'test_*.py'
+
   deploy:
+    if: github.event_name != 'pull_request'
+    needs: validate
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -27,10 +47,13 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
+      - name: Prepare public files
+        run: python3 scripts/prepare_site.py
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: '.'
+          path: 'dist'
 
       - name: Deploy to GitHub Pages
         id: deployment

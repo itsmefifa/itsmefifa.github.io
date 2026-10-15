@@ -1,86 +1,47 @@
-# Asset TODO List
+# Public asset inventory and remaining evidence
 
-Tracks every visual placeholder on the site and the real file that should replace it.
-Each placeholder in `index.html` is marked with a `<!-- REPLACE-ASSET: ... -->` comment
-carrying the same path and ratio as the tables below.
+## In use
 
-## How to replace a placeholder
+| Asset group | Source | Web presentation |
+| --- | --- | --- |
+| Portrait | `assets/profile/Chanisara_Hero.jpg` | Prioritized, dimensioned hero |
+| Case-study images | Existing Gemini, Jelly, fraud, and cocoa files | `assets/projects/previews/*.webp`; responsive candidates where useful |
+| Credentials | Existing scans/badges and legacy thumbs | `assets/credentials/previews/*.webp`; source opened only in the image dialog |
+| Research poster | `documents/posters/incit-2023.pdf` | Student identifier text objects removed; author names and research content preserved |
+| Poster raster | `assets/research/incit-2023/poster.png` | Refreshed from sanitized PDF; currently unlinked and excluded from Pages artifact |
+| Professional moments | `assets/moments/*` and cocoa collage | Preserved in the archive, with image dimensions |
+| Social preview | `assets/og/og-image.png` | Existing branded 1200 × 630 image |
+| Résumé | `documents/resume/Chanisara-Kotrachai-Resume.pdf` | Existing document unchanged |
 
-1. Create the asset at the exact path below (WebP preferred).
-2. In `index.html`, replace the `<figure class="ph" ...>...</figure>` block with an
-   `<img>` (same `alt` intent, real `width`/`height` attributes).
-3. Layouts use CSS `aspect-ratio`, so a correctly-ratioed image drops in with no
-   design changes. Keep the surrounding `<figure>`/wrapper and any `<figcaption>`.
+## Sanitized or excluded
 
-Placeholders are designed editorial components (dashed hairline, `#F8F9FA`, blue tick,
-yellow marker). They never pretend to be real assets.
+- The historical UI report screenshot was removed from the current checkout after
+  preserving a local recovery copy outside the repository. Its useful result is
+  transcribed as a dated text excerpt in the Jelly case study; no local path is shown.
+- Legacy `.portfolio-backup/` source snapshots were moved outside the checkout.
+- Finder `.DS_Store` files are removed and ignored.
+- Deployment includes referenced files only. Unused original credential PDFs and
+  intermediate exports remain source material but are not copied to GitHub Pages.
+- Existing Git history and prior public copies are not erased by these changes.
 
-## PROFILE
+## Evidence opportunities — do not display placeholders as completed work
 
-No missing assets — `assets/profile/Chanisara_Hero.jpg` is in use.
+| Opportunity | Required before publication |
+| --- | --- |
+| Professional delivery case | Confirmed problem, personal ownership, delivery status, outcome evidence, and publication clearance |
+| Cocoa evaluation | Dataset/evaluation context and publishable measured results; current collage alone does not support an improvement metric |
+| Gemini decisions | Author-confirmed responsibilities and tradeoffs beyond those already stated in the résumé |
+| Jelly individual contribution | Confirmed allocation of team work before attributing specific artifacts to one person |
+| AI-enabled professional delivery | Specific implemented workflow, contribution, validation, limitations, and permission to disclose |
 
-## EXPERIENCE
+## Adding assets
 
-Text-first by design; no placeholders rendered. Optional future assets:
+Keep source evidence separate from web previews. Export images at useful display
+sizes, use WebP for previews, preserve diagram text, and add actual width/height,
+descriptive alt text, and captions. Do not crop a diagram in a way that changes its
+meaning. Use `data-full` for an optional larger image and `data-zoom` to opt a figure
+into the native dialog. Never put an image zoom button inside another control.
 
-| Asset | Path | Ratio |
-|-------|------|-------|
-| Data Wow professional-safe image | `assets/experience/data-wow.webp` | 4:3 |
-| Bitkub professional-safe image | `assets/experience/bitkub.webp` | 4:3 |
-
-## PROJECTS
-
-| Section | Asset | Path | Ratio |
-|---------|-------|------|-------|
-| Cocoa | Cocoa seed sample image | `assets/projects/cocoa/sample.webp` | 4:3 |
-| Cocoa | YOLOv5/v8 detection output | `assets/projects/cocoa/detection.webp` | 16:9 |
-| Cocoa | Model results visualization | `assets/projects/cocoa/results.webp` | 4:3 |
-| Gemini | Application screenshot | `assets/projects/gemini/app.webp` | 16:10 |
-| Gemini | Use Case diagram | `assets/projects/gemini/use-case.webp` | 4:3 |
-| Gemini | Activity diagram | `assets/projects/gemini/activity.webp` | 4:3 |
-| Gemini | Sequence diagram | `assets/projects/gemini/sequence.webp` | 4:3 |
-| Gemini | Class diagram | `assets/projects/gemini/class.webp` | 4:3 |
-| Jelly Translator | Application UI screenshot | `assets/projects/jelly/ui.webp` | 16:9 |
-| Jelly Translator | Requirements Traceability Matrix excerpt | `assets/projects/jelly/rtm.webp` | 4:3 |
-| Jelly Translator | Robot Framework test execution output | `assets/projects/jelly/test-execution.webp` | 4:3 |
-| Jelly Translator | GitHub Actions CI result | `assets/projects/jelly/ci-result.webp` | 4:3 |
-
-## CERTIFICATIONS
-
-Authentic previews already in use: Cloud Digital Leader, AppSec Practitioner v2,
-Low-Code Workshop 2, NCU completion (see `assets/credentials/thumbs/`).
-
-| Credential | Path | Ratio |
-|------------|------|-------|
-| APIsec Certified Practitioner | `assets/credentials/acp.webp` | 4:3 |
-| AWS Partner: Technical Accredited | `assets/credentials/aws-technical.webp` | 4:3 |
-| Generative AI Overview for Project Managers (PMI) | `assets/credentials/generative-ai-pm.webp` | 4:3 |
-| Certified Professional Data Analyst (DataRockie) | `assets/credentials/data-analyst.webp` | 4:3 |
-| Postman API Fundamentals Student Expert | `assets/credentials/postman.webp` | 4:3 |
-| Claude Code in Action (Anthropic) | `assets/credentials/claude-code-in-action.webp` | 4:3 |
-| Claude 101 (Anthropic) | `assets/credentials/claude-101.webp` | 4:3 |
-| DevSecOps Transformation & Technologies (Skooldio) | `assets/credentials/devsecops-skooldio.webp` | 4:3 |
-
-## MOMENTS
-
-| Moment | Path | Ratio |
-|--------|------|-------|
-| Bitkub Summit 2024 (Bitkub MoonShot booth) | `assets/moments/bitkub-summit-2024.webp` | 4:3 |
-| Cocoa final-year project (team photo) | `assets/moments/cocoa-fyp.webp` | 4:3 |
-| Future Data Wow professional moment | `assets/moments/data-wow.webp` | 4:3 |
-
-## Guidelines for new assets
-
-- WebP (or high-quality JPG/PNG) optimized for the web; keep diagrams legible at
-  ~600px wide.
-- Redact client-specific or internal information (system names, URLs, data) before
-  publishing — everything in this repository is public.
-- Preserve the ratios above so layouts stay intact.
-
-## Generated derivatives (committed, safe to regenerate)
-
-- `assets/credentials/thumbs/*.jpg` — small JPEG previews of the certificate scans,
-  used by Certifications & Learning and Honors. Regenerate with
-  `sips -Z <width> --setProperty format jpeg`.
-- `assets/og/og-image.png` — 1200×630 branded Open Graph image.
-- `favicon.svg` — site mark (blue field, white bridge line, yellow endpoint).
+For new documents, inspect both rendered pages and extractable text. Remove
+unnecessary personal identifiers, local paths, internal URLs, credentials, and
+company/customer data before publication. Label any reconstructed material.
